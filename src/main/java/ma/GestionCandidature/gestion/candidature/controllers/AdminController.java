@@ -22,12 +22,7 @@ public class AdminController {
         users=adminServices.getAllUsers();
         return users;
     }
-    @GetMapping("/u")
-    void aaaa(){
-        User users = new User("JK","a","a","a","a","a","a",null,null,null,null,null,null);
-        adminServices.save(users);
 
-    }
-    //User(String CIN, String email, String username, String password, String firstName, String lastName, String adress, String phoneNumber, String role, Boolean enabled, Boolean accountExpired, Date createdAt, Date uploadedAt)
+
 
 }

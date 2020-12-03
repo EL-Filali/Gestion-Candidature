@@ -3,9 +3,7 @@ package ma.GestionCandidature.gestion.candidature.beans;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
@@ -26,11 +24,14 @@ public class User implements UserDetails {
     private Boolean accountExpired;
     private Date createdAt;
     private Date uploadedAt;
+    @OneToOne @JoinColumn(name = "id")
+    private FileDB a;
 
     public User() {
     }
 
-    public User(String CIN, String email, String username, String password, String firstName, String lastName, String adress, String phoneNumber, String role, Boolean enabled, Boolean accountExpired, Date createdAt, Date uploadedAt) {
+    public User(String CIN, String email, String username,
+                String password, String firstName, String lastName, String adress, String phoneNumber, String role) {
         this.CIN = CIN;
         this.email = email;
         this.username = username;
@@ -40,10 +41,7 @@ public class User implements UserDetails {
         this.adress = adress;
         this.phoneNumber = phoneNumber;
         this.role = role;
-        this.enabled = enabled;
-        this.accountExpired = accountExpired;
-        this.createdAt = createdAt;
-        this.uploadedAt = uploadedAt;
+
     }
 
     public Long getId() {
@@ -157,12 +155,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
