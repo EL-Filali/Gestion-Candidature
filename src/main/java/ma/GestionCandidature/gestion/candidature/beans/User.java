@@ -23,9 +23,18 @@ public class User implements UserDetails {
     private Boolean enabled;
     private Boolean accountExpired;
     private Date createdAt;
-    private Date uploadedAt;
+    private Date updatedAt;
     @OneToOne @JoinColumn(name = "id")
     private FileDB a;
+    @PrePersist
+    protected void onCreation()
+    {
+        createdAt =new Date();
+    }
+    @PreUpdate
+    protected  void onUpdate(){
+        updatedAt=new Date();
+    }
 
     public User() {
     }
@@ -140,12 +149,12 @@ public class User implements UserDetails {
         this.createdAt = createdAt;
     }
 
-    public Date getUploadedAt() {
-        return uploadedAt;
+    public Date getupdatedAt() {
+        return updatedAt;
     }
 
-    public void setUploadedAt(Date uploadedAt) {
-        this.uploadedAt = uploadedAt;
+    public void setupdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
