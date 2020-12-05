@@ -8,14 +8,14 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-public class User implements UserDetails {
+public class Candidat implements UserDetails {
     @Id @GeneratedValue
     private Long id;
     private String CIN;
     private String email;
     private String username;
     private String password;
-    private String  firstName;
+    private String firstName;
     private String lastName;
     private String adress;
     private String phoneNumber;
@@ -36,11 +36,11 @@ public class User implements UserDetails {
         updatedAt=new Date();
     }
 
-    public User() {
+    public Candidat() {
     }
 
-    public User(String CIN, String email, String username,
-                String password, String firstName, String lastName, String adress, String phoneNumber, String role) {
+    public Candidat(String CIN, String email, String username,
+                    String password, String firstName, String lastName, String adress, String phoneNumber, String role) {
         this.CIN = CIN;
         this.email = email;
         this.username = username;
