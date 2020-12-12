@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Candidat implements UserDetails {
@@ -26,6 +27,8 @@ public class Candidat implements UserDetails {
     private Date updatedAt;
     @OneToOne @JoinColumn(name = "id")
     private FileDB a;
+    @OneToMany(mappedBy = "owner")
+    private List<Candidature> candidatures;
     @PrePersist
     protected void onCreation()
     {
@@ -190,5 +193,13 @@ public class Candidat implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public List<Candidature> getCandidatures() {
+        return candidatures;
+    }
+
+    public void setCandidatures(List<Candidature> candidatures) {
+        this.candidatures = candidatures;
     }
 }
