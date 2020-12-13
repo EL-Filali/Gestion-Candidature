@@ -7,22 +7,38 @@ import java.util.List;
 @Entity
 public class Candidature {
     @Id @GeneratedValue
-    private Long id;
+    private Long code;
+
+
     private String lettre;
+
     private Date postedAt;
+
     private String status;
+    @ElementCollection(targetClass=String.class)
     private List<String> answers;
-    @ManyToOne @JoinColumn(name="id")
-    private Candidat Owner;
-    @ManyToOne @JoinColumn(name="id")
-    private Offer offer;
+
+    @ManyToOne
+    @JoinColumn(name="idOffer")
+    private Offer theOffer;
+
+
+    @ManyToOne
+    @JoinColumn(name="idOwner")
+    private Candidat owner;
+
+
+
+
+
+
 
     public Long getId() {
-        return id;
+        return code;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.code = id;
     }
 
     public String getLettre() {
@@ -58,19 +74,19 @@ public class Candidature {
     }
 
     public Candidat getOwner() {
-        return Owner;
+        return owner;
     }
 
     public void setOwner(Candidat owner) {
-        Owner = owner;
+        this.owner = owner;
     }
 
     public Offer getOffer() {
-        return offer;
+        return theOffer;
     }
 
     public void setOffer(Offer offer) {
-        this.offer = offer;
+        this.theOffer = offer;
     }
 
 

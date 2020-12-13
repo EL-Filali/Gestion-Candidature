@@ -2,25 +2,36 @@ package ma.GestionCandidature.gestion.candidature.beans;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Offer {
-    @Id  @GeneratedValue
+    @Id@GeneratedValue
     private Long id;
 
     private Date createdAt;
-    @NotBlank
+
     private String title;
 
     private String status;
-    @NotBlank
-    private List<String> keyWords;
-    @NotBlank
+    @ElementCollection(targetClass=String.class)
+    private List<String> kWs;
+    @ElementCollection(targetClass=String.class)
     private List<String> questions;
-    @OneToMany(mappedBy = "offer")
-    List<Candidature> candidatures;
+
+
+
+    @OneToMany(mappedBy = "theOffer", fetch=FetchType.EAGER)
+    private List<Candidature> candidatures;
+    @PrePersist
+    void initOffer(){
+        this.createdAt= new Date();
+        this.status="NON_VALID";
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,12 +64,12 @@ public class Offer {
         this.status = status;
     }
 
-    public List<String> getKeyWords() {
-        return keyWords;
+    public List<String> getkWs() {
+        return kWs;
     }
 
-    public void setKeyWords(List<String> keyWords) {
-        this.keyWords = keyWords;
+    public void setkWs(List<String> kWs) {
+        this.kWs = kWs;
     }
 
     public List<String> getQuestions() {
@@ -75,10 +86,5 @@ public class Offer {
 
     public void setCandidatures(List<Candidature> candidatures) {
         this.candidatures = candidatures;
-    }
-
-    @PrePersist
-    public void StatusAffectation(){
-        this.status="NON_VALID";
     }
 }

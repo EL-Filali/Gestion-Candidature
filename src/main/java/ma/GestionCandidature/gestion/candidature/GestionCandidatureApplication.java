@@ -3,7 +3,9 @@ package ma.GestionCandidature.gestion.candidature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@EnableJpaRepositories("ma.GestionCandidature.gestion.candidature.repositories")
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class )
 public class GestionCandidatureApplication {
 
