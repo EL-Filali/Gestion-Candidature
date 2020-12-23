@@ -42,7 +42,7 @@ public class CandidatController {
 
 
     @GetMapping("/")
-    ResponseEntity<?> getUser(Long idCandidature,Principal principal) {
+    ResponseEntity<?> getUser(Principal principal) {
          User user =candidatServices.getInfos(principal.getName());
         return new ResponseEntity<>(user,HttpStatus.OK);
 

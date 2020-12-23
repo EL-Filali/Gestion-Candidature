@@ -24,7 +24,7 @@ public class CandidatServices {
     OfferRepository offerRepository;
 
     public List<Candidature> getCandidatures(String name)  {
-        User user = userRepository.findByUsername(name);
+        User user = userRepository.findByEmail(name);
         List<Candidature> candidatures= user.getCandidatures();
 
         return candidatures;
@@ -33,12 +33,12 @@ public class CandidatServices {
 
 
         candidature.setOffer(offerRepository.findById(idOffer).get());
-        candidature.setOwner(userRepository.findByUsername(name));
+        candidature.setOwner(userRepository.findByEmail(name));
         candidatureRepository.save(candidature);
     }
 
     public void annulerCandidature(Long idCandidature,String username) throws Exception {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(username);
         if(candidatureRepository.findById(idCandidature).isPresent())
             throw new Exception("Aucune Candidature avec cet ID");
         else {
@@ -60,7 +60,7 @@ public class CandidatServices {
     }
 
     public Candidature getCandidature(Long idCandidature, String username) throws Exception {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(username);
         List<Candidature> candidatures= user.getCandidatures();
         Candidature candidature = null;
         for (Candidature c:candidatures
@@ -75,7 +75,7 @@ public class CandidatServices {
             return candidature;
     }
     public User getInfos(String name){
-        User user = userRepository.findByUsername(name);
+        User user = userRepository.findByEmail(name);
         user.setPassword(null);
 
         return user;

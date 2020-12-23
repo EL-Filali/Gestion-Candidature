@@ -26,7 +26,7 @@ public class RecruterServices {
 
 
     public ResponseEntity<?> createOffer(Offer offer,String name){
-        User user =userRepository.findByUsername(name);
+        User user =userRepository.findByEmail(name);
         offer.setOwner(user);
         offerRepository.save(offer);
         return new ResponseEntity<>(offer,HttpStatus.CREATED);
@@ -58,7 +58,7 @@ public class RecruterServices {
 
 
     public ResponseEntity<?> getAllRecruterOffers(String name){
-        List<Offer> offers=userRepository.findByUsername(name).getOffers();
+        List<Offer> offers=userRepository.findByEmail(name).getOffers();
         for (Offer offer:offers) {
             if(offer.getStatus()=="EXPIRE")
                 offers.remove(offer);
@@ -67,7 +67,7 @@ public class RecruterServices {
     }
     public ResponseEntity<?> getRecruterOffer(String name,Long idOffer){
         Offer offer2=null;
-        List<Offer> offers=userRepository.findByUsername(name).getOffers();
+        List<Offer> offers=userRepository.findByEmail(name).getOffers();
         for (Offer offer:offers) {
             if((offer.getStatus()!="EXPIRE")||(offer.getId()==idOffer))
                 offer2=offer;

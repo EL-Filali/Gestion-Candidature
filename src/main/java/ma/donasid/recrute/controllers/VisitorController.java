@@ -66,7 +66,7 @@ public class VisitorController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         try{    Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginResponse.getUsername(),loginResponse.getPassword())
+                new UsernamePasswordAuthenticationToken(loginResponse.getEmail(),loginResponse.getPassword())
                 );
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);

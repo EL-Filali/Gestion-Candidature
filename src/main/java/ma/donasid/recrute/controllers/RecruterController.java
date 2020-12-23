@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/recruter")
+@RequestMapping("api/RECRUTEUR")
 public class RecruterController {
     @Autowired
     ValidationServices validationServices;

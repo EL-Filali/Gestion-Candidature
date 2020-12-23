@@ -35,7 +35,7 @@ public class VisitorServices {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return  new ResponseEntity<>(HttpStatus.CREATED);
+        return  new ResponseEntity<>(user,HttpStatus.CREATED);
     }
     public ResponseEntity<?> getOffer(Long id)  {
         Optional<Offer> offer=offerRepository.findById(id);

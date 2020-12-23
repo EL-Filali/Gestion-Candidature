@@ -4,16 +4,16 @@ import javax.validation.constraints.NotBlank;
 
 public class ConnexionResponse {
     @NotBlank(message = "Ne peux pas etre vide")
-    private String username;
+    private String email;
     @NotBlank(message = "Ne peux pas etre vide")
     private String password ;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public String getPassword() {

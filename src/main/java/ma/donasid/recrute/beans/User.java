@@ -19,6 +19,8 @@ import java.util.List;
 public class User implements UserDetails  {
     @Id @GeneratedValue
     private Long id;
+    @NotBlank
+    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{3,6}")
     @Column(unique = true)
     private String CIN;
     @Email @Column(unique = true)
@@ -26,11 +28,11 @@ public class User implements UserDetails  {
     private String email;
 
     @Column(unique = true)
+
     @NotBlank
-    private String username;
     @Pattern(regexp = "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$",message = "Le motdepasse doit  contenir des caractères d'au moins 3 des 4 regles suivantes:\n" +
 
-            "Haut de casse" +
+            "Majiscule" +
             "Minuscules" +
             "Nombres" +
             "Non alphanumérique")
@@ -101,9 +103,7 @@ public class User implements UserDetails  {
         this.email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -184,8 +184,8 @@ public class User implements UserDetails  {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(role));
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.role));
         return authorities;
     }
 
@@ -196,8 +196,9 @@ public class User implements UserDetails  {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -216,7 +217,7 @@ public class User implements UserDetails  {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
     public List<Candidature> getCandidatures() {
