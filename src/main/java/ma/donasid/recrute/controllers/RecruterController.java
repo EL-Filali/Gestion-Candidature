@@ -1,6 +1,8 @@
 package ma.donasid.recrute.controllers;
 
 import ma.donasid.recrute.beans.Offer;
+import ma.donasid.recrute.services.AdminServices;
+import ma.donasid.recrute.services.CandidatServices;
 import ma.donasid.recrute.services.RecruterServices;
 import ma.donasid.recrute.services.ValidationServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +36,16 @@ public class RecruterController {
 
         }
     }
-    @PutMapping("/candidatures/{id}/status")
-    ResponseEntity<?> changerStatusCandidature(@PathVariable Long id, String status) {
+    @PutMapping("Offers/{idOffre}/candidatures/{id}/status")
+    ResponseEntity<?> changerStatusCandidature(@PathVariable Long id,Long idOffre, String status,Principal principal) {
 
         switch (status) {
             case "VALIDEE":
-                return recruterServices.validerCandidature(id);
+                return recruterServices.validerCandidature(id,idOffre,principal.getName());
 
 
             case "REFUSEE":
-                return recruterServices.rejeterCandidature(id);
+                return recruterServices.rejeterCandidature(id,idOffre,principal.getName());
 
 
             default:
@@ -63,7 +65,22 @@ public class RecruterController {
     @PutMapping("/offers/{id}/status")
     ResponseEntity<?> cloturerOffer(Long idOffer,Principal principal){
         return recruterServices.cloturerOffer(idOffer,principal.getName());
-
+    }
+    @GetMapping("offers/{idOffer}/candidatures/{idCandidature}")
+    ResponseEntity<?> getCandidature(Long idOffer,Long idCandidature,Principal principal){
+        return recruterServices.getCandidature(idOffer,principal.getName(),idCandidature);
+    }
+    @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner")
+    ResponseEntity<?> getOwner(Long idOffer,Long idCandidature,Principal principal){
+        return recruterServices.getOwnerCandidature(idOffer,idCandidature,principal.getName());
+    }
+    @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/pdp")
+    ResponseEntity<?> getOwnerPdp(Long idOffer,Long idCandidature,Principal principal){
+        return recruterServices.getpdpOwnerCandidature(idOffer,idCandidature,principal.getName());
+    }
+    @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/cv")
+    ResponseEntity<?> getOwnerCv(Long idOffer,Long idCandidature,Principal principal){
+        return recruterServices.getCvOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
 
 }

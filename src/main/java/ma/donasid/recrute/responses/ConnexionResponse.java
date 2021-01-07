@@ -1,26 +1,37 @@
 package ma.donasid.recrute.responses;
 
-import javax.validation.constraints.NotBlank;
+import ma.donasid.recrute.beans.User;
+
+import java.util.HashMap;
 
 public class ConnexionResponse {
-    @NotBlank(message = "Ne peux pas etre vide")
-    private String email;
-    @NotBlank(message = "Ne peux pas etre vide")
-    private String password ;
+    private String jwt;
+    private User user;
 
-    public String getEmail() {
-        return email;
+    public ConnexionResponse(String jwt, User user) {
+        this.jwt = jwt;
+        this.user = user;
     }
 
-    public void setEmail(String username) {
-        this.email = username;
+    public String getJwt() {
+        return jwt;
     }
 
-    public String getPassword() {
-        return password;
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public HashMap<String,Object> toHashMap(){
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("jwt",jwt);
+        map.put("user",user );
+        return map;
     }
 }

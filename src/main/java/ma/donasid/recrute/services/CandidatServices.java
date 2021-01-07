@@ -1,5 +1,6 @@
 package ma.donasid.recrute.services;
 
+import io.jsonwebtoken.Header;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.config.JwtTokenProvider;
@@ -7,9 +8,21 @@ import ma.donasid.recrute.exceptions.IllegalOperationException;
 import ma.donasid.recrute.repositories.UserRepository;
 import ma.donasid.recrute.repositories.CandidatureRepository;
 import ma.donasid.recrute.repositories.OfferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import org.apache.tomcat.jni.File;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -22,6 +35,21 @@ public class CandidatServices {
     UserRepository userRepository;
     @Autowired
     OfferRepository offerRepository;
+    @Autowired
+    ValidationServices validationServices;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public  ResponseEntity<?> updateInfos(User user, BindingResult result ) {
+        if(result.hasErrors()){
+            return new ResponseEntity<>(validationServices.MapValidationService(result),HttpStatus.BAD_REQUEST);
+        }else{
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return new ResponseEntity<>(validationServices.MapValidationService(result),HttpStatus.CREATED);
+        }
+
+    }
 
     public List<Candidature> getCandidatures(String name)  {
         User user = userRepository.findByEmail(name);
@@ -79,6 +107,68 @@ public class CandidatServices {
         user.setPassword(null);
 
         return user;
+    }
+    public ResponseEntity<?> uploadFile(MultipartFile file, String email,String fileTypeName) throws IOException {
+        User user=userRepository.findByEmail(email);
+        String regex = null;
+        switch(fileTypeName){
+            case "CV":
+                user.setCvFileName(file.getOriginalFilename());
+                regex=".*[.]pdf";
+                break;
+            case "PDP":
+                user.setPdpFileName(file.getOriginalFilename());
+                regex=".*[.]jpeg";
+                break;
+            default:
+                break;
+
+        }
+        System.out.println(file.getOriginalFilename());
+        if(file.getOriginalFilename().matches(regex)){
+            userRepository.save(user);
+            Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/",fileTypeName,"/",file.getOriginalFilename());
+            try{
+                Files.write(fileNameAndPath,file.getBytes());
+
+                return new ResponseEntity<>("Saved",HttpStatus.OK);
+            }catch(Exception exception){
+                return new ResponseEntity<>("Erreur lors de upload : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            }
+        }else{
+            return new ResponseEntity<>("Format de fichier non valid ",HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    public ResponseEntity<?> downloadFile( String email,String fileTypeName) throws IOException {
+        User user=userRepository.findByEmail(email);
+        HttpHeaders headers = new HttpHeaders();
+
+        String fileName = null;
+        switch(fileTypeName){
+            case "CV":
+                fileName= user.getCvFileName();
+
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                break;
+            case "PDP":
+
+                fileName=user.getPdpFileName();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                break;
+            default:
+                break;
+
+        }
+        System.out.println(fileName);
+
+        Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/",fileTypeName,"/",fileName);
+        try{
+            MultipartFile file=new MockMultipartFile(fileName, Files.readAllBytes(fileNameAndPath));
+            return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);
+        }catch(Exception exception){
+            return new ResponseEntity<>("Erreur lors de upload : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
+        }
     }
     
 }

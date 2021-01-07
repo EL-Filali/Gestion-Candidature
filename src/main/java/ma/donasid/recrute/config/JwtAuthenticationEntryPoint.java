@@ -2,7 +2,7 @@ package ma.donasid.recrute.config;
 
 import com.google.gson.Gson;
 
-import ma.donasid.recrute.responses.ConnexionResponse;
+import ma.donasid.recrute.responses.ConnexionRequest;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -19,14 +19,15 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
 
-        ConnexionResponse loginResponse = new ConnexionResponse();
+        ConnexionRequest loginResponse = new ConnexionRequest();
         String jsonLoginResponse = new Gson().toJson(loginResponse);
 
 
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setStatus(401);
         httpServletResponse.getWriter().print(jsonLoginResponse);
-
+        httpServletResponse.getWriter().print("Email ou mot de passe  sont incorrects ");
+        System.out.println("Email ou mot de passe  sont incorrects ");
 
     }
 }

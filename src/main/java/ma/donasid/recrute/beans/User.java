@@ -54,6 +54,10 @@ public class User implements UserDetails  {
     private Date createdAt;
     @JsonIgnore
     private Date updatedAt;
+    @JsonIgnore
+    private String cvFileName;
+    @JsonIgnore
+    private String pdpFileName;
     @OneToMany(mappedBy = "owner")
     private List<Candidature> candidatures;
     @OneToMany(mappedBy = "owner")
@@ -241,5 +245,21 @@ public class User implements UserDetails  {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public String getCvFileName() {
+        return cvFileName;
+    }
+
+    public void setCvFileName(String cvFileName) {
+        this.cvFileName = cvFileName;
+    }
+
+    public String getPdpFileName() {
+        return pdpFileName;
+    }
+
+    public void setPdpFileName(String pdpFileName) {
+        this.pdpFileName = pdpFileName;
     }
 }

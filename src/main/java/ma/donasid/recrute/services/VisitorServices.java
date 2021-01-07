@@ -10,11 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class VisitorServices {
+    private static final File TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
     @Autowired
     OfferRepository offerRepository;
     @Autowired
@@ -31,10 +37,16 @@ public class VisitorServices {
         return new ResponseEntity<>(offers,HttpStatus.FOUND);
     }
 
-    public ResponseEntity<?> userRegister(User user)  {
+    public ResponseEntity<?> userRegister(User user) throws IOException {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        Path path = Paths.get("./uploads/"+user.getCIN()+"/");
+        Files.createDirectory(path);
+         path = Paths.get("./uploads/"+user.getCIN()+"/PDP/");
+        Files.createDirectory(path);
+        path = Paths.get("./uploads/"+user.getCIN()+"/CV/");
+        Files.createDirectory(path);
         return  new ResponseEntity<>(user,HttpStatus.CREATED);
     }
     public ResponseEntity<?> getOffer(Long id)  {
