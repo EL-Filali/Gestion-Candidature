@@ -63,13 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                .antMatchers("/api/register","/api/offers/*","/api/connexion").permitAll()
-                .antMatchers(H2_URL).permitAll()
+                .antMatchers("/api/offers","/api/register","/api/offers/*","/api/connexion").permitAll()
+
                 .antMatchers("/api/ADMIN/*").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/CANDIDAT/*").hasAnyAuthority("CANDIDAT","RECRUTEUR","ADMIN")
                 .antMatchers("/api/RECRUTEUR/*").hasAnyAuthority("RECRUTEUR","ADMIN")
 
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
