@@ -82,5 +82,11 @@ public class RecruterController {
     ResponseEntity<?> getOwnerCv(Long idOffer,Long idCandidature,Principal principal){
         return recruterServices.getCvOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
+    @GetMapping("/offers")
+    ResponseEntity<?>   getOffers(  Principal principal){
+        String name=principal.getName();
+        return recruterServices.getAllRecruterOffers(name);
+
+    }
 
 }
