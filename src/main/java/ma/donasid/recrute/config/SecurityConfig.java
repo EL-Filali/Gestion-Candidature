@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .headers().frameOptions().sameOrigin() //To enable H2 Database
+                .headers().frameOptions().sameOrigin()
                 .and()
                 .authorizeRequests()
 

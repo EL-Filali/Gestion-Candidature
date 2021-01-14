@@ -192,7 +192,7 @@ public class RecruterServices {
             headers.setContentType(MediaType.APPLICATION_PDF);
             System.out.println(fileName);
 
-            Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/CV/",fileName);
+            Path fileNameAndPath = Paths.get("./uploads/",user.getCin(),"/CV/",fileName);
             try{
                 MultipartFile file=new MockMultipartFile(fileName, Files.readAllBytes(fileNameAndPath));
                 return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);
@@ -214,7 +214,7 @@ public class RecruterServices {
             headers.setContentType(MediaType.IMAGE_JPEG);
             System.out.println(fileName);
 
-            Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/PDP/",fileName);
+            Path fileNameAndPath = Paths.get("./uploads/",user.getCin(),"/PDP/",fileName);
             try{
                 MultipartFile file=new MockMultipartFile(fileName, Files.readAllBytes(fileNameAndPath));
                 return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);

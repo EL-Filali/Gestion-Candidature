@@ -21,7 +21,7 @@ public class User implements UserDetails  {
     @NotBlank
     @Pattern(regexp = "^[A-Z]{1,2}[0-9]{3,6}")
     @Column(unique = true)
-    private String CIN;
+    private String cin;
     @Email @Column(unique = true)
     @NotBlank
     private String email;
@@ -92,12 +92,12 @@ public class User implements UserDetails  {
         this.id = id;
     }
 
-    public String getCIN() {
-        return CIN;
+    public String getCin() {
+        return cin;
     }
 
-    public void setCIN(String CIN) {
-        this.CIN = CIN;
+    public void setCin(String CIN) {
+        this.cin = CIN;
     }
 
     public String getEmail() {

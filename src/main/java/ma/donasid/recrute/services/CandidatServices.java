@@ -128,7 +128,7 @@ public class CandidatServices {
         System.out.println(file.getOriginalFilename());
         if(file.getOriginalFilename().matches(regex)){
             userRepository.save(user);
-            Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/",fileTypeName,"/",file.getOriginalFilename());
+            Path fileNameAndPath = Paths.get("./uploads/",user.getCin(),"/",fileTypeName,"/",file.getOriginalFilename());
             try{
                 Files.write(fileNameAndPath,file.getBytes());
 
@@ -163,7 +163,7 @@ public class CandidatServices {
         }
         System.out.println(fileName);
 
-        Path fileNameAndPath = Paths.get("./uploads/",user.getCIN(),"/",fileTypeName,"/",fileName);
+        Path fileNameAndPath = Paths.get("./uploads/",user.getCin(),"/",fileTypeName,"/",fileName);
         try{
             MultipartFile file=new MockMultipartFile(fileName, Files.readAllBytes(fileNameAndPath));
             return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);

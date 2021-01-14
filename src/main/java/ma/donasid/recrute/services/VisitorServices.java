@@ -37,11 +37,11 @@ public class VisitorServices {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        Path path = Paths.get("./uploads/"+user.getCIN()+"/");
+        Path path = Paths.get("./uploads/"+user.getCin()+"/");
         Files.createDirectory(path);
-         path = Paths.get("./uploads/"+user.getCIN()+"/PDP/");
+         path = Paths.get("./uploads/"+user.getCin()+"/PDP/");
         Files.createDirectory(path);
-        path = Paths.get("./uploads/"+user.getCIN()+"/CV/");
+        path = Paths.get("./uploads/"+user.getCin()+"/CV/");
         Files.createDirectory(path);
         return  new ResponseEntity<>(user,HttpStatus.CREATED);
     }
