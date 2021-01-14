@@ -1,5 +1,7 @@
 package ma.donasid.recrute.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 public class Offer {
     @Id@GeneratedValue
     private Long id;
-
+    @JsonIgnore
     private Date createdAt;
 
     private String title;
@@ -21,14 +23,16 @@ public class Offer {
     private List<String> questions;
 
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "theOffer", fetch=FetchType.EAGER)
     private List<Candidature> candidatures;
+
     @PrePersist
     void initOffer(){
         this.createdAt= new Date();
         this.status="NON_VALID";
     }
+    @JsonIgnore
    @ManyToOne
     @JoinColumn(name="idOwner")
     private User owner;

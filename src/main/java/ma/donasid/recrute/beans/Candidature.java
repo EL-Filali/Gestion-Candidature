@@ -1,5 +1,7 @@
 package ma.donasid.recrute.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,24 +12,33 @@ public class Candidature {
     private Long code;
 
 
-    private String lettre;
+    private String motivation;
 
-    private Date postedAt;
 
-    private String status;
     @ElementCollection(targetClass=String.class)
     private List<String> answers;
 
+
+    @JsonIgnore
+    private Date postedAt;
+    @JsonIgnore
+    private String status;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="idOffer")
     private Offer theOffer;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="idOwner")
     private User owner;
 
 
+    @PrePersist
+    void initCandidature(){
+        this.postedAt= new Date();
+        this.status="EN_ATTENTE";
+    }
 
 
 
@@ -41,13 +52,7 @@ public class Candidature {
         this.code = id;
     }
 
-    public String getLettre() {
-        return lettre;
-    }
 
-    public void setLettre(String lettre) {
-        this.lettre = lettre;
-    }
 
     public Date getPostedAt() {
         return postedAt;
@@ -89,6 +94,27 @@ public class Candidature {
         this.theOffer = offer;
     }
 
+    public Long getCode() {
+        return code;
+    }
 
+    public void setCode(Long code) {
+        this.code = code;
+    }
 
+    public String getMotivation() {
+        return motivation;
+    }
+
+    public void setMotivation(String motivation) {
+        this.motivation = motivation;
+    }
+
+    public Offer getTheOffer() {
+        return theOffer;
+    }
+
+    public void setTheOffer(Offer theOffer) {
+        this.theOffer = theOffer;
+    }
 }

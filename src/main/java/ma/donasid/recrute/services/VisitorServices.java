@@ -28,12 +28,8 @@ public class VisitorServices {
     @Autowired
     UserRepository userRepository;
     public ResponseEntity<?>  getAllOffers(){
-        List <Offer> offers=offerRepository.findAll();
-        for (Offer offer:offers
-        ) {
-            offer.setOwner(null);
+        List <Offer> offers=offerRepository.findByStatus("VALIDE");
 
-        }
         return new ResponseEntity<>(offers,HttpStatus.FOUND);
     }
 

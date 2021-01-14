@@ -1,6 +1,7 @@
 package ma.donasid.recrute.services;
 
 import io.jsonwebtoken.Header;
+import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.config.JwtTokenProvider;
@@ -58,10 +59,10 @@ public class CandidatServices {
         return candidatures;
     }
     public void postuler(Long idOffer,String name,Candidature candidature){
-
-
-        candidature.setOffer(offerRepository.findById(idOffer).get());
-        candidature.setOwner(userRepository.findByEmail(name));
+        Offer offer =offerRepository.findById(idOffer).get();
+        User user=userRepository.findByEmail(name);
+        candidature.setOffer(offer);
+        candidature.setOwner(user);
         candidatureRepository.save(candidature);
     }
 

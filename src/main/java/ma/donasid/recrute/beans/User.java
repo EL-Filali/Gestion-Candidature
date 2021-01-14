@@ -58,8 +58,10 @@ public class User implements UserDetails  {
     private String cvFileName;
     @JsonIgnore
     private String pdpFileName;
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Candidature> candidatures;
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Offer> offers;
 

@@ -40,7 +40,7 @@ public class AdminController {
 
     }
 
-    @PutMapping("/offer/{id}/status")
+    @PutMapping("/offers/{id}/status")
     ResponseEntity<?> validerOffer(@PathVariable Long id){
         return adminServices.valideOffre(id);
     }

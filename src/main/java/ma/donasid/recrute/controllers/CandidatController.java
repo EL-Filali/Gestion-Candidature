@@ -4,6 +4,7 @@ import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.services.CandidatServices;
 import ma.donasid.recrute.services.ValidationServices;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CandidatController {
 
     }
     @GetMapping("/candidatures/{id}")
-    ResponseEntity<?> getCandidature(@PathVariable  Long idCandidature, Principal principal) throws Exception {
+    ResponseEntity<?> getCandidature(@PathVariable @RequestBody  Long idCandidature, Principal principal) throws Exception {
         try{
             Candidature candidature=candidatServices.getCandidature(idCandidature,principal.getName());
             return new ResponseEntity<>(candidature,HttpStatus.FOUND);
@@ -65,8 +66,9 @@ public class CandidatController {
 
     }
     @PostMapping("/offers/{id}")
-    ResponseEntity<?> postuler(@PathVariable @RequestBody Long id ,Principal principal, Candidature candidature) throws Exception {
+    ResponseEntity<?> postuler( @RequestBody Candidature candidature,@PathVariable Long id , Principal principal) throws Exception {
         try {
+            System.out.println(candidature.getMotivation());
             candidatServices.postuler(id,principal.getName(),candidature);
             return new ResponseEntity<>(candidature,HttpStatus.CREATED);
         }catch (Exception e){
