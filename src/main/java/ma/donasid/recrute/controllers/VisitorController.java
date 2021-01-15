@@ -79,20 +79,9 @@ public class VisitorController {
 
 
             return new ResponseEntity<String>(mapper.writeValueAsString(connexionResponse.toHashMap()), HttpStatus.OK);
-        }catch (SignatureException ex){
-            return new ResponseEntity<String>("Invalid JWT Signature",HttpStatus.NOT_ACCEPTABLE);
-        }catch (MalformedJwtException ex){
-            return new ResponseEntity<String>("Invalid JWT Token",HttpStatus.NOT_ACCEPTABLE);
-        }catch (ExpiredJwtException ex){
-            return new ResponseEntity<String>("Expired JWT token",HttpStatus.NOT_ACCEPTABLE);
-        }catch (UnsupportedJwtException ex){
-            return new ResponseEntity<String>("Unsupported JWT token",HttpStatus.NOT_ACCEPTABLE);
-        }catch (IllegalArgumentException ex){
-            return new ResponseEntity<String>("JWT claims string is empty",HttpStatus.NOT_ACCEPTABLE);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+        }catch (Exception ex){
+            return new ResponseEntity<>(ex,HttpStatus.NOT_ACCEPTABLE);
         }
-
 
     }
 
@@ -101,8 +90,21 @@ public class VisitorController {
 
         if(result.hasErrors())
             return validationServices.MapValidationService(result);
-        else
-            return visitorServices.userRegister(user);
+        else{
+            String password= user.getPassword();
+            String email=user.getEmail();
+            visitorServices.userRegister(user);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email,password)
+            );
+            ObjectMapper mapper = new ObjectMapper();
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
+
+            ConnexionResponse connexionResponse =new ConnexionResponse(jwt, user);
+            return new ResponseEntity<>(mapper.writeValueAsString(connexionResponse.toHashMap()), HttpStatus.OK);
+        }
+
 
     }
 }

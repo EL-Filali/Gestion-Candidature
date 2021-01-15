@@ -26,7 +26,7 @@ public class CandidatController {
    @GetMapping("/candidatures")
     ResponseEntity<?> getAll(Principal principal) {
         try{List<Candidature> candidatures=candidatServices.getCandidatures(principal.getName());
-            return new ResponseEntity<>(candidatures, HttpStatus.FOUND);}
+            return new ResponseEntity<>(candidatures, HttpStatus.OK);}
         catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
@@ -37,7 +37,7 @@ public class CandidatController {
     ResponseEntity<?> getCandidature(@PathVariable @RequestBody  Long idCandidature, Principal principal) throws Exception {
         try{
             Candidature candidature=candidatServices.getCandidature(idCandidature,principal.getName());
-            return new ResponseEntity<>(candidature,HttpStatus.FOUND);
+            return new ResponseEntity<>(candidature,HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }

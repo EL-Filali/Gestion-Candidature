@@ -24,21 +24,21 @@ public class AdminServices {
 
 
    public ResponseEntity<?> getAllUsers(){
-       return new ResponseEntity<>(userRepository.findAll(),HttpStatus.FOUND);
+       return new ResponseEntity<>(userRepository.findAll(),HttpStatus.OK);
 
     }
     public ResponseEntity<?> getUser(Long idUser){
        Optional<User> optionalUser =userRepository.findById(idUser);
        if(optionalUser.isPresent()){
             User user =optionalUser.get();
-            return new ResponseEntity<>(user, HttpStatus.FOUND);
+            return new ResponseEntity<>(user, HttpStatus.OK);
        }else{
            return new ResponseEntity<>( "Aucun utilisateur avec cet ID",HttpStatus.NOT_FOUND);
        }
     }
 
     public ResponseEntity<?> getAllOffers(){
-        return new ResponseEntity<>(offerRepository.findAll(),HttpStatus.FOUND);
+        return new ResponseEntity<>(offerRepository.findAll(),HttpStatus.OK);
     }
 
     private ResponseEntity<?> rendreAdmin(Long idUser){
@@ -110,7 +110,7 @@ public class AdminServices {
     public ResponseEntity<?> getOfferById(Long idOffer){
        Optional<Offer> optionalOffer =offerRepository.findById(idOffer);
        if(optionalOffer.isPresent()){
-           return new ResponseEntity<>(optionalOffer.get(),HttpStatus.FOUND);
+           return new ResponseEntity<>(optionalOffer.get(),HttpStatus.OK);
        }else
            return new ResponseEntity<>("Aucun offer avec cet Id",HttpStatus.NOT_FOUND);
     }

@@ -69,7 +69,7 @@ public class RecruterServices {
             if(offer.getStatus()=="EXPIRE")
                 offers.remove(offer);
         }
-        return new ResponseEntity<>(offers,HttpStatus.FOUND);
+        return new ResponseEntity<>(offers,HttpStatus.OK);
     }
     public ResponseEntity<?> getRecruterOffer(String name,Long idOffer){
         Offer offer2=null;
@@ -81,7 +81,7 @@ public class RecruterServices {
         if(offer2==null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(offer2,HttpStatus.FOUND);
+            return new ResponseEntity<>(offer2,HttpStatus.OK);
     }
 
 
@@ -141,7 +141,7 @@ public class RecruterServices {
             return new ResponseEntity<>("Aucun Offre de vous offre ne corespandant a cette ID",HttpStatus.NOT_FOUND);
         else{
             Offer offer= (Offer) response.getBody();
-            return new ResponseEntity<>(offer.getCandidatures(),HttpStatus.FOUND);
+            return new ResponseEntity<>(offer.getCandidatures(),HttpStatus.OK);
 
         }
     }
@@ -163,7 +163,7 @@ public class RecruterServices {
             }else{
                 return new ResponseEntity<>("Aucune Candidature avec cette id",HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(candidature,HttpStatus.FOUND);
+            return new ResponseEntity<>(candidature,HttpStatus.OK);
 
         }
     }
@@ -177,7 +177,7 @@ public class RecruterServices {
             Candidature candidature = (Candidature) response.getBody();
             User user=candidature.getOwner();
             user.setPassword(null);
-            return new ResponseEntity<>(user,HttpStatus.FOUND);
+            return new ResponseEntity<>(user,HttpStatus.OK);
         }
 
     }

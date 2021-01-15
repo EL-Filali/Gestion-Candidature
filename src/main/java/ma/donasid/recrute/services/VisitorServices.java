@@ -30,7 +30,7 @@ public class VisitorServices {
     public ResponseEntity<?>  getAllOffers(){
         List <Offer> offers=offerRepository.findByStatus("VALIDE");
 
-        return new ResponseEntity<>(offers,HttpStatus.FOUND);
+        return new ResponseEntity<>(offers,HttpStatus.OK);
     }
 
     public ResponseEntity<?> userRegister(User user) throws IOException {
@@ -48,7 +48,7 @@ public class VisitorServices {
     public ResponseEntity<?> getOffer(Long id)  {
         Optional<Offer> offer=offerRepository.findById(id);
         if(offer.isPresent()){
-            return  new ResponseEntity<>(offer.get(),HttpStatus.FOUND);
+            return  new ResponseEntity<>(offer.get(),HttpStatus.OK);
         }else{
             return new ResponseEntity<>("Aucun Offre avec cet Id", HttpStatus.NOT_FOUND);
         }
