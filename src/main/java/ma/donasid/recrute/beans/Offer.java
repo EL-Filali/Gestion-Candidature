@@ -10,7 +10,7 @@ import java.util.List;
 public class Offer {
     @Id@GeneratedValue
     private Long id;
-    @JsonIgnore
+
     private Date createdAt;
 
     private String title;

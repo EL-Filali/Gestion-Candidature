@@ -19,9 +19,9 @@ public class Candidature {
     private List<String> answers;
 
 
-    @JsonIgnore
+
     private Date postedAt;
-    @JsonIgnore
+    
     private String status;
     @JsonIgnore
     @ManyToOne
