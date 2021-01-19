@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,11 +21,11 @@ public class AdminController {
 
 
     @GetMapping("/users/{id}")
-    ResponseEntity<?> getUser(Long idUser){
+    ResponseEntity<?> getUser(@PathVariable Long idUser){
         return adminServices.getUser(idUser);
     }
 
-    @GetMapping
+    @GetMapping("/offers")
     ResponseEntity<?> getAllOffers(){
         return adminServices.getAllOffers();
     }
@@ -35,18 +36,21 @@ public class AdminController {
     }
 
     @DeleteMapping("/offers/{id}")
-    ResponseEntity<?> deleteOfferById(@PathVariable Long id){
+    ResponseEntity<?> deleteOfferById(@PathVariable Long id , Principal principal){
         return adminServices.deleteOfferById(id);
 
     }
 
     @PutMapping("/offers/{id}/status")
-    ResponseEntity<?> validerOffer(@PathVariable Long id){
+    ResponseEntity<?> validerOffer(@PathVariable Long id, Principal principal){
         return adminServices.valideOffre(id);
     }
     @PutMapping("/users/{id}/role")
-    ResponseEntity<?> changerRole(@PathVariable Long id,String role ){
+    ResponseEntity<?> changerRole(@PathVariable Long id, String role , Principal principal ){
         return adminServices.changeStatus(role,id);
     }
-
+    @DeleteMapping("/users/{id}")
+    ResponseEntity<?> suspendUser(@PathVariable Long id, Principal principal){
+        return adminServices.suspendUser(id);
+    }
 }

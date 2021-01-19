@@ -66,14 +66,11 @@ public class CandidatController {
 
     }
     @PostMapping("/offers/{id}")
-    ResponseEntity<?> postuler( @RequestBody Candidature candidature,@PathVariable Long id , Principal principal) throws Exception {
-        try {
+    ResponseEntity<?> postuler( @PathVariable Long id ,@RequestBody  Candidature candidature, Principal principal) throws Exception {
+
             System.out.println(candidature.getMotivation());
-            candidatServices.postuler(id,principal.getName(),candidature);
-            return new ResponseEntity<>(candidature,HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+            return candidatServices.postuler(id,principal.getName(),candidature);
+
 
     }
     @RequestMapping(value = "/cv", method = RequestMethod.POST)

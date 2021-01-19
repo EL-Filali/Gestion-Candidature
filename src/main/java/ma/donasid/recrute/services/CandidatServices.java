@@ -58,12 +58,23 @@ public class CandidatServices {
 
         return candidatures;
     }
-    public void postuler(Long idOffer,String name,Candidature candidature){
-        Offer offer =offerRepository.findById(idOffer).get();
-        User user=userRepository.findByEmail(name);
-        candidature.setOffer(offer);
-        candidature.setOwner(user);
-        candidatureRepository.save(candidature);
+    public ResponseEntity<?> postuler(Long idOffer,String name,Candidature candidature){
+
+            Offer offer =offerRepository.findById(idOffer).get();
+            if(offer.getStatus().equals("VALIDE")){
+                System.out.print("valider");
+                User user=userRepository.findByEmail(name);
+                candidature.setTheOffer(offer);
+                candidature.setOwner(user);
+
+                candidatureRepository.save(candidature);
+                return new ResponseEntity<>(candidature,HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+
+
     }
 
     public void annulerCandidature(Long idCandidature,String username) throws Exception {
@@ -78,7 +89,7 @@ public class CandidatServices {
             } else {
                 if(candidature.getOwner().equals(user)){
                     candidature.setStatus("ANNULEE");
-                    candidature.setOffer(null);
+                    candidature.setTheOffer(null);
                     candidatureRepository.save(candidature);
                 }else{
                     throw new Exception("Aucun candidature avec cet ID pour ce user");
@@ -94,7 +105,7 @@ public class CandidatServices {
         Candidature candidature = null;
         for (Candidature c:candidatures
              ) {
-            if(c.getId()==idCandidature)
+            if(c.getCode()==idCandidature)
                  candidature=c;
 
         }
@@ -171,5 +182,5 @@ public class CandidatServices {
             return new ResponseEntity<>("Erreur lors de upload : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
     }
-    
+
 }

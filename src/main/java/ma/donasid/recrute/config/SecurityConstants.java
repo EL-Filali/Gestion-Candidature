@@ -9,7 +9,7 @@ public class SecurityConstants {
     public static final String SECRET ="OurSecretKeyJWS00000KeyJWS00000KeyJWS00000KeyJWS00000";
     public static final String TOKEN_PREFIX= "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final long EXPIRATION_TIME = 3000_000; //300S
+    public static final long EXPIRATION_TIME = 7200_000; //300S
 }
 
 

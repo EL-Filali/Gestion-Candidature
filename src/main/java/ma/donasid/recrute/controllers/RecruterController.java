@@ -1,5 +1,6 @@
 package ma.donasid.recrute.controllers;
 
+import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.services.AdminServices;
 import ma.donasid.recrute.services.CandidatServices;
@@ -36,9 +37,10 @@ public class RecruterController {
 
         }
     }
-    @PutMapping("Offers/{idOffre}/candidatures/{id}/status")
-    ResponseEntity<?> changerStatusCandidature(@PathVariable Long id,Long idOffre, String status,Principal principal) {
-
+    @PutMapping("offers/{idOffre}/candidatures/{id}/status")
+    ResponseEntity<?> changerStatusCandidature(@PathVariable  Long idOffre, @PathVariable Long id,  @RequestBody Candidature candidature, Principal principal) {
+        String status =candidature.getStatus();
+        System.out.println(status);
         switch (status) {
             case "VALIDEE":
                 return recruterServices.validerCandidature(id,idOffre,principal.getName());
@@ -65,6 +67,10 @@ public class RecruterController {
     @PutMapping("/offers/{id}/status")
     ResponseEntity<?> cloturerOffer(Long idOffer,Principal principal){
         return recruterServices.cloturerOffer(idOffer,principal.getName());
+    }
+    @GetMapping("offers/{idOffer}/candidatures")
+    ResponseEntity<?> getCandidatures(Long idOffer,Long idCandidature,Principal principal) {
+        return recruterServices.getCandidatures(idOffer, principal.getName());
     }
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}")
     ResponseEntity<?> getCandidature(Long idOffer,Long idCandidature,Principal principal){

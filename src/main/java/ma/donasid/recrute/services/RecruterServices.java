@@ -146,25 +146,12 @@ public class RecruterServices {
         }
     }
     public ResponseEntity<?> getCandidature(Long idOffre,String email,Long idCandidature){
-        ResponseEntity response=getCandidatures( idOffre, email);
-        if(response.getStatusCode().equals(HttpStatus.NOT_FOUND))
-            return new ResponseEntity<>("Aucun Offre de vous offre ne corespandant a cette ID",HttpStatus.NOT_FOUND);
-        else{
-            List<Candidature> candidatures= (List<Candidature>) response.getBody();
-            Candidature candidature=null;
-            for (Candidature cdt:candidatures
-                 ) {
-                if(cdt.getId()==idCandidature)
-                    candidature=cdt;
-
-            }
-            if (candidature==null){
-
-            }else{
-                return new ResponseEntity<>("Aucune Candidature avec cette id",HttpStatus.NOT_FOUND);
-            }
+        Offer offer = offerRepository.findById(idOffre).get();
+        Candidature candidature = candidatureRepository.findByTheOfferAndCode(offer,idCandidature);
+        if(candidature==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
             return new ResponseEntity<>(candidature,HttpStatus.OK);
-
         }
     }
 

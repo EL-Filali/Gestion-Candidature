@@ -1,7 +1,9 @@
 package ma.donasid.recrute.services;
 
+import ma.donasid.recrute.beans.Log;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Offer;
+import ma.donasid.recrute.repositories.LogRepository;
 import ma.donasid.recrute.repositories.UserRepository;
 import ma.donasid.recrute.repositories.CandidatureRepository;
 import ma.donasid.recrute.repositories.OfferRepository;
@@ -21,7 +23,8 @@ public class AdminServices {
     OfferRepository offerRepository;
     @Autowired
     CandidatureRepository candidatureRepository;
-
+    @Autowired
+    LogRepository logRepository;
 
    public ResponseEntity<?> getAllUsers(){
        return new ResponseEntity<>(userRepository.findAll(),HttpStatus.OK);
@@ -115,4 +118,20 @@ public class AdminServices {
            return new ResponseEntity<>("Aucun offer avec cet Id",HttpStatus.NOT_FOUND);
     }
 
+    public ResponseEntity<?> suspendUser(Long idUser){
+        Optional<User> userOptional =userRepository.findById(idUser);
+        if(userOptional.isPresent()){
+            User user= userOptional.get();
+            user.setEnabled(false);
+            userRepository.save(user);
+            return new ResponseEntity(HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new Exception("User not found"),HttpStatus.BAD_REQUEST);
+        }
+    }
+    public ResponseEntity<?> getLogs(Long idUser){
+       List<Log> logs=logRepository.findAll();
+       return new ResponseEntity<>(logs,HttpStatus.OK);
+
+    }
 }
