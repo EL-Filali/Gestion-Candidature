@@ -26,9 +26,9 @@ public class User implements UserDetails  {
     @NotBlank
     private String email;
 
-    @Column(unique = true)
 
-    @NotBlank
+
+    @NotBlank@JsonIgnore
     @Pattern(regexp = "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$",message = "Le motdepasse doit  contenir des caractères d'au moins 3 des 4 regles suivantes:\n" +
 
             "Majiscule" +
