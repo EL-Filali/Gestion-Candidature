@@ -94,8 +94,9 @@ public class AdminServices {
        offerRepository.deleteById(idOffer);
        return new ResponseEntity<>(HttpStatus.OK);
     }
-    public ResponseEntity<?> changeStatus(String status,Long idCandidat)   {
-       status=status.toUpperCase();
+    public ResponseEntity<?> changeStatus(String s,Long idCandidat)   {
+       String status=s.toUpperCase();
+       System.out.print(status);
        switch (status) {
            case "ADMIN":
                return rendreAdmin(idCandidat);

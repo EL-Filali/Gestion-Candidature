@@ -46,8 +46,8 @@ public class AdminController {
         return adminServices.valideOffre(id);
     }
     @PutMapping("/users/{id}/role")
-    ResponseEntity<?> changerRole(@PathVariable Long id, String role , Principal principal ){
-        return adminServices.changeStatus(role,id);
+    ResponseEntity<?> changerRole(@PathVariable Long id,@RequestBody User user , Principal principal ){
+        return adminServices.changeStatus(user.getRole(),id);
     }
     @DeleteMapping("/users/{id}")
     ResponseEntity<?> suspendUser(@PathVariable Long id, Principal principal){
