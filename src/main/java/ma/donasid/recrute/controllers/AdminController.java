@@ -21,8 +21,8 @@ public class AdminController {
 
 
     @GetMapping("/users/{id}")
-    ResponseEntity<?> getUser(@PathVariable Long idUser){
-        return adminServices.getUser(idUser);
+    ResponseEntity<?> getUser(@PathVariable Long id){
+        return adminServices.getUser(id);
     }
 
     @GetMapping("/offers")
