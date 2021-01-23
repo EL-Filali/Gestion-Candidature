@@ -1,6 +1,7 @@
 package ma.donasid.recrute.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,7 @@ public class User implements UserDetails  {
 
 
 
-    @JsonIgnore
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @Pattern(regexp = "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$",message = "Le motdepasse doit  contenir des caractères d'au moins 3 des 4 regles suivantes:\n" +
 
             "Majiscule" +
