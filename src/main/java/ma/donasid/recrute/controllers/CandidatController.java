@@ -30,9 +30,8 @@ public class CandidatController {
         catch(Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
-
-
     }
+
     @GetMapping("/candidatures/{id}")
     ResponseEntity<?> getCandidature(@PathVariable @RequestBody  Long idCandidature, Principal principal) throws Exception {
         try{
@@ -94,10 +93,10 @@ public class CandidatController {
 
     }
 
-    @PutMapping
+    @PutMapping("/")
     public ResponseEntity<?> updateInfos(@Valid @RequestBody User user, Principal principal, BindingResult result){
 
-       return candidatServices.updateInfos(user,result);
+       return candidatServices.updateInfos(user,result,principal.getName());
     }
 
 
