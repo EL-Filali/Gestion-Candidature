@@ -54,6 +54,11 @@ public class VisitorServices {
         }
 
     }
+    public ResponseEntity<?> getLastestOffer(){
+
+        List<Offer> lastOffers=offerRepository.findTop3ByStatusOrderByCreatedAt("VALIDE");
+        return new ResponseEntity(lastOffers,HttpStatus.OK);
+    }
 
 
 

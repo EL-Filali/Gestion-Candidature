@@ -107,4 +107,9 @@ public class VisitorController {
 
 
     }
+
+    @GetMapping("/lastoffers")
+    ResponseEntity<?> getLastOffers(){
+        return visitorServices.getLastestOffer();
+    }
 }

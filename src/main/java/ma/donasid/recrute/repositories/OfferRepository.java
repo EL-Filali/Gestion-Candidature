@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, Long> {
     public List<Offer> findByStatus(String status);
+    public List<Offer> findTop3ByStatusOrderByCreatedAt(String status);
 }
