@@ -86,11 +86,12 @@ public class CandidatServices {
 
     public void annulerCandidature(Long idCandidature,String username) throws Exception {
         User user = userRepository.findByEmail(username);
-        if(candidatureRepository.findById(idCandidature).isPresent())
+        Candidature candidature = candidatureRepository.findByOwnerAndCode(user,idCandidature);
+        if(candidature==null)
             throw new Exception("Aucune Candidature avec cet ID");
         else {
 
-            Candidature candidature = candidatureRepository.findById(idCandidature).get();
+            
             if ((candidature.getStatus() == "ACCEPTEE") || (candidature.getStatus() == "ANNULEE")) {
                 throw new IllegalOperationException("Candidature ACCEPTEE ou REFUSEE ne peux pas etre ANNULEE");
             } else {
