@@ -25,9 +25,8 @@ public class Candidature {
     private Date postedAt;
 
     private String status;
-    @JsonIgnore
+    
     @ManyToOne
-
     private Offer theOffer;
 
 
