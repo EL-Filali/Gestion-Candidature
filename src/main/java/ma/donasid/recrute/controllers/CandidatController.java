@@ -33,7 +33,7 @@ public class CandidatController {
     }
 
     @GetMapping("/candidatures/{id}")
-    ResponseEntity<?> getCandidature(@PathVariable @RequestBody  Long idCandidature, Principal principal) throws Exception {
+    ResponseEntity<?> getCandidature(@PathVariable   Long idCandidature, Principal principal) throws Exception {
         try{
             Candidature candidature=candidatServices.getCandidature(idCandidature,principal.getName());
             return new ResponseEntity<>(candidature,HttpStatus.OK);
