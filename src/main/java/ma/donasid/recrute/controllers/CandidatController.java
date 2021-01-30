@@ -53,7 +53,7 @@ public class CandidatController {
 
     }
 
-    @PostMapping
+    @DeleteMapping("/candidatures/{id}")
     ResponseEntity<?> annulerCandidature(@PathVariable Long id ,Principal principal) throws Exception {
         try{
             candidatServices.annulerCandidature(id,principal.getName());
