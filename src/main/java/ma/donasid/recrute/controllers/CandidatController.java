@@ -33,9 +33,9 @@ public class CandidatController {
     }
 
     @GetMapping("/candidatures/{id}")
-    ResponseEntity<?> getCandidature(@PathVariable   Long idCandidature, Principal principal) throws Exception {
+    ResponseEntity<?> getCandidature(@PathVariable   Long id, Principal principal) throws Exception {
 
-            Candidature candidature=candidatServices.getCandidature(idCandidature,principal.getName());
+            Candidature candidature=candidatServices.getCandidature(id,principal.getName());
             if(candidature==null){
             return new ResponseEntity<>(candidature,HttpStatus.OK);
         }else{
