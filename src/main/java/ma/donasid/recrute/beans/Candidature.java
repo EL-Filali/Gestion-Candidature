@@ -11,7 +11,7 @@ public class Candidature {
     @Id @GeneratedValue
     private Long code;
 
-
+    @Column(length = 10000)
     private String motivation;
     @ElementCollection(targetClass=String.class)
     private List<String> answers;
