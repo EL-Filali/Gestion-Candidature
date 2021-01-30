@@ -11,8 +11,8 @@ public class Candidature {
     @Id @GeneratedValue
     private Long code;
 
-
-    @Column( length=5000)
+    @Lob
+    @Column
     private String motivation;
 
 
