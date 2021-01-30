@@ -25,11 +25,11 @@ public class Candidature {
     private Date postedAt;
 
     private String status;
-    
+
     @ManyToOne
     private Offer theOffer;
 
-
+    @JsonIgnore
     @ManyToOne
     private User owner;
 
