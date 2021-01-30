@@ -36,7 +36,7 @@ public class CandidatController {
     ResponseEntity<?> getCandidature(@PathVariable   Long id, Principal principal) throws Exception {
 
             Candidature candidature=candidatServices.getCandidature(id,principal.getName());
-            if(candidature==null){
+            if(candidature!=null){
             return new ResponseEntity<>(candidature,HttpStatus.OK);
         }else{
             return new ResponseEntity<>("Aucune Candidature avec ce code",HttpStatus.NOT_FOUND);
