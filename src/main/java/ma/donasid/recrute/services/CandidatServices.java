@@ -91,17 +91,14 @@ public class CandidatServices {
             throw new Exception("Aucune Candidature avec cet ID");
         else {
 
-            
+
             if ((candidature.getStatus() == "ACCEPTEE") || (candidature.getStatus() == "ANNULEE")) {
                 throw new IllegalOperationException("Candidature ACCEPTEE ou REFUSEE ne peux pas etre ANNULEE");
             } else {
-                if(candidature.getOwner().equals(user)){
-                    candidature.setStatus("ANNULEE");
-                    candidature.setTheOffer(null);
-                    candidatureRepository.save(candidature);
-                }else{
-                    throw new Exception("Aucun candidature avec cet ID pour ce user");
-                }
+
+
+                    candidatureRepository.delete(candidature);
+
 
             }
         }
