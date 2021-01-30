@@ -106,18 +106,8 @@ public class CandidatServices {
 
     public Candidature getCandidature(Long idCandidature, String username) throws Exception {
         User user = userRepository.findByEmail(username);
-        List<Candidature> candidatures= user.getCandidatures();
-        Candidature candidature = null;
-        for (Candidature c:candidatures
-             ) {
-            if(c.getCode()==idCandidature)
-                 candidature=c;
-
-        }
-        if (candidature==null)
-            throw new Exception("Aucun candidature avec cet ID pour ce user");
-        else
-            return candidature;
+        Candidature candidature=candidatureRepository.findByOwnerAndCode(user,idCandidature);
+        return candidature;
     }
     public User getInfos(String name){
         User user = userRepository.findByEmail(name);

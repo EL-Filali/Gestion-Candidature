@@ -34,11 +34,12 @@ public class CandidatController {
 
     @GetMapping("/candidatures/{id}")
     ResponseEntity<?> getCandidature(@PathVariable   Long idCandidature, Principal principal) throws Exception {
-        try{
+
             Candidature candidature=candidatServices.getCandidature(idCandidature,principal.getName());
+            if(candidature==null){
             return new ResponseEntity<>(candidature,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>("Aucune Candidature avec ce code",HttpStatus.NOT_FOUND);
         }
 
 
