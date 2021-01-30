@@ -11,8 +11,8 @@ public class Candidature {
     @Id @GeneratedValue
     private Long code;
 
-    @Lob
-    @Column( length = 100000 ,columnDefinition="LONGTEXT")
+    
+    @Column( columnDefinition="LONGTEXT")
     private String motivation;
     @ElementCollection(targetClass=String.class)
     private List<String> answers;
