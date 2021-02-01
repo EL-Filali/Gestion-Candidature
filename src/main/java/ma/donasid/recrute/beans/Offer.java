@@ -1,6 +1,8 @@
 package ma.donasid.recrute.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,7 +26,8 @@ public class Offer {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "theOffer", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "theOffer", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Candidature> candidatures;
 
     @PrePersist
