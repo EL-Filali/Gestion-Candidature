@@ -2,6 +2,8 @@ package ma.donasid.recrute.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,10 +62,15 @@ public class User implements UserDetails  {
     @JsonIgnore
     private String pdpFileName;
     @JsonIgnore
-    @OneToMany(mappedBy = "owner")
+
+    @OneToMany(mappedBy = "owner",
+            cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Candidature> candidatures;
     @JsonIgnore
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",
+            cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Offer> offers;
 
 
