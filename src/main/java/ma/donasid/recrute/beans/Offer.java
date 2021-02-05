@@ -36,7 +36,7 @@ public class Offer {
         this.status="NON_VALID";
     }
     @JsonIgnore
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name="idOwner")
     private User owner;
     public Long getId() {

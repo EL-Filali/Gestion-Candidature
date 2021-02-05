@@ -42,20 +42,21 @@ public class CandidatServices {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public  ResponseEntity<?> updateInfos(User user, BindingResult result,String name ) {
-        if(result.hasErrors()){
-            return new ResponseEntity<>(validationServices.MapValidationService(result),HttpStatus.BAD_REQUEST);
-        }else{
 
             User usr=userRepository.findByEmail(name);
-            usr.setAdress(user.getAdress());
-            usr.setCin(user.getCin());
-            usr.setFirstName(user.getFirstName());
-            usr.setLastName(user.getLastName());
-            usr.setPhoneNumber(user.getPhoneNumber());
-            usr.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            if(user.getAdress()!=null)
+                usr.setAdress(user.getAdress());
+            if(user.getFirstName()!=null)
+                usr.setFirstName(user.getFirstName());
+            if(user.getLastName()!=null)
+                usr.setLastName(user.getLastName());
+            if(user.getPhoneNumber()!=null)
+                usr.setPhoneNumber(user.getPhoneNumber());
+            if(user.getPassword()!=null)
+                usr.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(usr);
             return new ResponseEntity<>(usr,HttpStatus.CREATED);
-        }
+
 
     }
 
