@@ -65,27 +65,27 @@ public class RecruterController {
 
     }
     @PutMapping("/offers/{id}/status")
-    ResponseEntity<?> cloturerOffer(Long idOffer,Principal principal){
-        return recruterServices.cloturerOffer(idOffer,principal.getName());
+    ResponseEntity<?> cloturerOffer(@PathVariable  Long id,Principal principal){
+        return recruterServices.cloturerOffer(id,principal.getName());
     }
     @GetMapping("offers/{idOffer}/candidatures")
-    ResponseEntity<?> getCandidatures(Long idOffer,Long idCandidature,Principal principal) {
+    ResponseEntity<?> getCandidatures(@PathVariable Long idOffer,Long idCandidature,Principal principal) {
         return recruterServices.getCandidatures(idOffer, principal.getName());
     }
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}")
-    ResponseEntity<?> getCandidature(Long idOffer,Long idCandidature,Principal principal){
+    ResponseEntity<?> getCandidature(@PathVariable Long idOffer,@PathVariable Long idCandidature,Principal principal){
         return recruterServices.getCandidature(idOffer,principal.getName(),idCandidature);
     }
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner")
-    ResponseEntity<?> getOwner(Long idOffer,Long idCandidature,Principal principal){
+    ResponseEntity<?> getOwner(@PathVariable  Long idOffer, @PathVariable  Long idCandidature,Principal principal){
         return recruterServices.getOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/pdp")
-    ResponseEntity<?> getOwnerPdp(Long idOffer,Long idCandidature,Principal principal){
+    ResponseEntity<?> getOwnerPdp(@PathVariable Long idOffer, @PathVariable Long idCandidature,Principal principal){
         return recruterServices.getpdpOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/cv")
-    ResponseEntity<?> getOwnerCv(Long idOffer,Long idCandidature,Principal principal){
+    ResponseEntity<?> getOwnerCv(@PathVariable Long idOffer, @PathVariable Long idCandidature,Principal principal){
         return recruterServices.getCvOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
     @GetMapping("/offers")
