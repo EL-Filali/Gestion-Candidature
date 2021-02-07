@@ -15,6 +15,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
 import javax.xml.ws.Response;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -136,14 +137,14 @@ public class RecruterServices {
 
 
     public ResponseEntity<?> getCandidatures(Long idOffre,String name){
-        ResponseEntity response = getRecruterOffer(name, idOffre);
-        if(response.getStatusCode().equals(HttpStatus.NOT_FOUND))
-            return new ResponseEntity<>("Aucun Offre de vous offre ne corespandant a cette ID",HttpStatus.NOT_FOUND);
-        else{
-            Offer offer= (Offer) response.getBody();
-            return new ResponseEntity<>(offer.getCandidatures(),HttpStatus.OK);
-
+        Optional<Offer> offer=offerRepository.findById(idOffre);
+        if(offer.isPresent()) {
+            List<Candidature> candidatures = candidatureRepository.findByTheOffer(offer.get());
+            return new ResponseEntity<>(candidatures, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
         }
+
     }
     public ResponseEntity<?> getCandidature(Long idOffre,String email,Long idCandidature){
         Offer offer = offerRepository.findById(idOffre).get();
