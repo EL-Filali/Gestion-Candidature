@@ -41,7 +41,7 @@ public class CandidatServices {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public  ResponseEntity<?> updateInfos(User user, BindingResult result,String name ) {
+    public  ResponseEntity<?> updateInfos(User user,String name ) {
 
             User usr=userRepository.findByEmail(name);
             if(user.getAdress()!=null)

@@ -95,9 +95,9 @@ public class CandidatController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<?> updateInfos(@Valid @RequestBody User user, Principal principal, BindingResult result){
+    public ResponseEntity<?> updateInfos( @RequestBody User user, Principal principal){
 
-       return candidatServices.updateInfos(user,result,principal.getName());
+       return candidatServices.updateInfos(user,principal.getName());
     }
 
 

@@ -29,7 +29,7 @@ public class Candidature {
     @ManyToOne
     private Offer theOffer;
 
-    @JsonIgnore
+    
     @ManyToOne
     private User owner;
 
