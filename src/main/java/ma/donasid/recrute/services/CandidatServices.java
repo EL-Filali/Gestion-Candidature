@@ -44,15 +44,15 @@ public class CandidatServices {
     public  ResponseEntity<?> updateInfos(User user,String name ) {
 
             User usr=userRepository.findByEmail(name);
-            if(user.getAdress()!=null)
+            if(user.getAdress()!="")
                 usr.setAdress(user.getAdress());
-            if(user.getFirstName()!=null)
+            if(user.getFirstName()!="")
                 usr.setFirstName(user.getFirstName());
-            if(user.getLastName()!=null)
+            if(user.getLastName()!="")
                 usr.setLastName(user.getLastName());
-            if(user.getPhoneNumber()!=null)
+            if(user.getPhoneNumber()!="")
                 usr.setPhoneNumber(user.getPhoneNumber());
-            if(user.getPassword()!=null)
+            if(user.getPassword()!="")
                 usr.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(usr);
             return new ResponseEntity<>(usr,HttpStatus.OK);
