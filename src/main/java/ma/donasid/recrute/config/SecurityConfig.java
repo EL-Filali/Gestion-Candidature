@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/CANDIDAT/*").hasAnyAuthority("CANDIDAT","RECRUTEUR","ADMIN")
                 .antMatchers("/api/RECRUTEUR/*").hasAnyAuthority("RECRUTEUR","ADMIN")
 
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
