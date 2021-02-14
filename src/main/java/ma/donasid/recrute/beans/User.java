@@ -22,7 +22,7 @@ public class User implements UserDetails  {
     @Id @GeneratedValue
     private Long id;
     @NotBlank
-    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{3,6}")
+    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{3,6}" ,message="Entrer un cin valide (exemple AAxxxx)")
     @Column(unique = true)
     private String cin;
     @Email @Column(unique = true)
@@ -39,9 +39,9 @@ public class User implements UserDetails  {
             "Nombres" +
             "Non alphanumérique")
     private String password;
-    @Pattern(regexp = "[A-Za-z ]{2,}$",message = "Le Champs doix contenir Min 2 caractere Alphabetique")
+    @Pattern(regexp = "[A-Za-z ]{2,}$",message = "ce champs doix contenir  2 caractere Alphabetique au minimum")
     private String firstName;
-    @Pattern(regexp = "[A-Za-z ]{2,}$",message = "Le Champs doix contenir Min 2 caractere Alphabetique")
+    @Pattern(regexp = "[A-Za-z ]{2,}$",message = "ce champs doix contenir  2 caractere alphabetique au minimum ")
     private String lastName;
     @NotBlank
     private String adress;
