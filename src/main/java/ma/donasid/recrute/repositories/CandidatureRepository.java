@@ -12,4 +12,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature,Long> {
     public Candidature findByTheOfferAndCode(Offer offer, Long Code);
     public Candidature findByOwnerAndCode(User owner,Long code);
     public List<Candidature> findByTheOffer(Offer offer);
+
+    Candidature findByCodeAndTheOffer( Long code, Offer theOffer);
 }

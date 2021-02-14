@@ -47,7 +47,7 @@ public class RecruterController {
 
 
             case "REFUSEE":
-                return recruterServices.rejeterCandidature(id,idOffre,principal.getName());
+                return recruterServices.rejeterCandidature(idOffre,id,principal.getName());
 
 
             default:

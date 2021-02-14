@@ -55,7 +55,7 @@ public class CandidatServices {
             if(user.getPassword()!=null)
                 usr.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(usr);
-            return new ResponseEntity<>(usr,HttpStatus.CREATED);
+            return new ResponseEntity<>(usr,HttpStatus.OK);
 
 
     }

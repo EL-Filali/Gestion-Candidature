@@ -90,22 +90,19 @@ public class RecruterServices {
 
 
     public ResponseEntity<?> rejeterCandidature(Long idOffre, Long idCandidature, String name)  {
-            ResponseEntity<?> response = getCandidature(idOffre,name,idCandidature);
-        if(response.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-            return response;
-        }else{
-            Candidature candidature = (Candidature) response.getBody();
-            if((candidature.getStatus()=="REFUSEE")||(candidature.getStatus()=="ANNULEE")){
 
-                return new ResponseEntity<>("Impossible de Valide une candidature " + candidature.getStatus(), HttpStatus.BAD_REQUEST);
-
-            }else {
-
+            User user=userRepository.findByEmail(name);
+        Offer offer = offerRepository.findByOwnerAndId(user,idOffre);
+            Candidature candidature = candidatureRepository.findByCodeAndTheOffer( idCandidature,offer);
+            if(candidature==null) {
+                return new ResponseEntity<>("Aucune candidature", HttpStatus.BAD_REQUEST);
+            }
+            else{
                 candidature.setStatus("REFUSEE");
                 candidatureRepository.save(candidature);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-        }
+
 
 
     }
