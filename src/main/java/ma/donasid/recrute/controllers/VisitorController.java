@@ -1,5 +1,6 @@
 package ma.donasid.recrute.controllers;
 
+import com.dropbox.core.DbxException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -112,4 +114,5 @@ public class VisitorController {
     ResponseEntity<?> getLastOffers(){
         return visitorServices.getLastestOffer();
     }
+
 }

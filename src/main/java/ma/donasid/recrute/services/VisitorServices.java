@@ -1,5 +1,15 @@
 package ma.donasid.recrute.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.Metadata;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.repositories.OfferRepository;
@@ -9,13 +19,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -32,6 +43,7 @@ public class VisitorServices {
 
         return new ResponseEntity<>(offers,HttpStatus.OK);
     }
+
 
     public ResponseEntity<?> userRegister(User user) throws IOException {
 
@@ -59,6 +71,7 @@ public class VisitorServices {
         List<Offer> lastOffers=offerRepository.findTop3ByStatusOrderByCreatedAt("VALIDE");
         return new ResponseEntity(lastOffers,HttpStatus.OK);
     }
+
 
 
 

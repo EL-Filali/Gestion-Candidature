@@ -1,5 +1,6 @@
 package ma.donasid.recrute.controllers;
 
+import com.dropbox.core.DbxException;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.services.CandidatServices;
@@ -74,23 +75,23 @@ public class CandidatController {
 
     }
     @RequestMapping(value = "/cv", method = RequestMethod.POST)
-    ResponseEntity<?> uploadCV(@RequestParam("file")MultipartFile file, Principal principal) throws IOException {
-       return candidatServices.uploadFile(file,principal.getName(),"CV");
+    ResponseEntity<?> uploadCV(@RequestParam("file")MultipartFile file, Principal principal) throws IOException, DbxException {
+       return candidatServices.cloudUpload(principal.getName(),file,"CV");
 
     }
     @RequestMapping(value = "/cv", method = RequestMethod.GET)
-    ResponseEntity<?> downloadCV( Principal principal) throws IOException {
-        return candidatServices.downloadFile(principal.getName(),"CV");
+    ResponseEntity<?> downloadCV( Principal principal) throws IOException, DbxException {
+        return candidatServices.cloudDownload(principal.getName(),"CV");
 
     }
     @RequestMapping(value = "/pdp", method = RequestMethod.POST,produces={"image/jpeg"})
-    ResponseEntity<?> uploadPDP(@RequestParam("file")MultipartFile file, Principal principal) throws IOException {
-        return candidatServices.uploadFile(file,principal.getName(),"PDP");
+    ResponseEntity<?> uploadPDP(@RequestParam("file")MultipartFile file, Principal principal) throws IOException, DbxException {
+        return candidatServices.cloudUpload(principal.getName(),file,"PDP");
 
     }
     @RequestMapping(value = "/pdp", method = RequestMethod.GET)
-    ResponseEntity<?> downloadPDP( Principal principal) throws IOException {
-        return candidatServices.downloadFile(principal.getName(),"PDP");
+    ResponseEntity<?> downloadPDP( Principal principal) throws IOException, DbxException {
+        return candidatServices.cloudDownload(principal.getName(),"PDP");
 
     }
 

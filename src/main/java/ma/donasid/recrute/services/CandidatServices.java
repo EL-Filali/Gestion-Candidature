@@ -1,5 +1,11 @@
 package ma.donasid.recrute.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.Metadata;
 import io.jsonwebtoken.Header;
 import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.beans.User;
@@ -20,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,6 +35,7 @@ import java.util.List;
 
 @Service
 public class CandidatServices {
+    private static final String ACCESS_TOKEN ="USsB3oequVYAAAAAAAAAAa8LjbSu0ColuARJszzXU8jX0d3m0HL0QXCqJc6c7YZe" ;
     @Autowired
     CandidatureRepository candidatureRepository;
     @Autowired
@@ -147,6 +155,8 @@ public class CandidatServices {
             return new ResponseEntity<>("Format de fichier non valid ",HttpStatus.BAD_REQUEST);
         }
 
+
+
     }
     public ResponseEntity<?> downloadFile( String email,String fileTypeName) throws IOException {
         User user=userRepository.findByEmail(email);
@@ -178,5 +188,66 @@ public class CandidatServices {
             return new ResponseEntity<>("Erreur lors de upload : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
     }
+    public ResponseEntity<?> cloudUpload(String email, MultipartFile file,String type ) throws IOException, DbxException {
+        User user =userRepository.findByEmail(email);
+        switch(type){
+            case "CV":
+                user.setCvFileName(file.getOriginalFilename());
+                break;
+            case "PDP":
+                user.setPdpFileName(file.getOriginalFilename());
+                break;
+            default:
+                break;
+
+        }
+        try{
+
+            DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(file.getBytes());
+            Metadata uploadMetaData = client.files().uploadBuilder("/"+user.getCin()+"/"+file.getOriginalFilename()).uploadAndFinish(inputStream);
+
+            inputStream.close();
+            userRepository.save(user);
+            return new ResponseEntity<>("done",HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
+        }
+    }
+    public ResponseEntity<?> cloudDownload( String email, String type ) throws IOException, DbxException {
+        HttpHeaders headers = new HttpHeaders();
+        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+        User user =userRepository.findByEmail(email);
+        MultipartFile file = null;
+        switch(type){
+            case "CV":
+
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                 file =new  MockMultipartFile(user.getCvFileName(), client.files().download("/"+user.getCin()+"/"+user.getCvFileName()).getInputStream());
+                break;
+            case "PDP":
+                 file =new  MockMultipartFile( user.getPdpFileName(), client.files().download("/"+user.getCin()+"/"+user.getPdpFileName()).getInputStream());
+
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                break;
+            default:
+                break;
+
+        }
+
+
+
+
+
+
+
+        return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);
+    }
+
 
 }
