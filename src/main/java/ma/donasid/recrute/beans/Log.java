@@ -11,11 +11,11 @@ public class Log {
     private Long id;
 
     private String action;
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name="id_user")
     private User user;
-    @JsonIgnore
+
     private Date date;
     @PrePersist
     void init(){
