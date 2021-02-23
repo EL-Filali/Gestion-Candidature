@@ -38,6 +38,7 @@ public class LogAspect {
                String action= " Connexion user email '" +connexionRequest.getEmail()+"' Reussie ";
                 Log log = new Log();
                 log.setAction(action.toUpperCase());
+                log.setUser(userRepository.findByEmail(connexionRequest.getEmail()));
                 logRepository.save(log);
             }else{
                 String action= " Connexion user email '" +connexionRequest.getEmail()+"' Echoue ";
@@ -120,13 +121,13 @@ public class LogAspect {
         }
         if((result.getStatusCodeValue()==200)||(result.getStatusCodeValue()==201)){
 
-            String action= "changement de status candidature"+id+" vers"+status+"  Reussie ";
+            String action= "changement de status candidature"+id+"   Reussie ";
             User user =userRepository.findByEmail(principal.getName());
 
             Log log = new Log(action.toUpperCase(), user);
             logRepository.save(log);
         }else{
-            String action= "Changement de status Candidature "+id+" vers"+status+"     Echoue ";
+            String action= "Changement de status Candidature "+id+"    Echoue ";
             User user =userRepository.findByEmail(principal.getName());
 
             Log log = new Log(action.toUpperCase(), user);
