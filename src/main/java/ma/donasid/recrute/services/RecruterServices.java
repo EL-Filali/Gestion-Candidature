@@ -1,5 +1,8 @@
 package ma.donasid.recrute.services;
 
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.beans.User;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
 import javax.xml.ws.Response;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +35,7 @@ public class RecruterServices {
     OfferRepository offerRepository;
     @Autowired
     CandidatureRepository candidatureRepository;
-
+    String ACCESS_TOKEN ="USsB3oequVYAAAAAAAAAAa8LjbSu0ColuARJszzXU8jX0d3m0HL0QXCqJc6c7YZe";
 
     public ResponseEntity<?> createOffer(Offer offer,String name){
         User user =userRepository.findByEmail(name);
@@ -166,28 +170,30 @@ public class RecruterServices {
         }
 
     }
-    public ResponseEntity<?> getCvOwnerCandidature(Long idOffer, Long idCandidature, String name){
-        ResponseEntity<?> response=getOwnerCandidature(idOffer,idCandidature,name);
-        if(response.getStatusCode().equals(HttpStatus.NOT_FOUND))
-            return response;
-        else{
-            User user = (User) response.getBody();
-            HttpHeaders headers = new HttpHeaders();
-            String fileName= user.getCvFileName();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            System.out.println(fileName);
+    public ResponseEntity<?> getCvOwnerCandidature(Long idOffer, Long idCandidature, String name) throws DbxException, IOException {
+        try{
+        User recruteur=userRepository.findByEmail(name);
+        HttpHeaders headers = new HttpHeaders();
+        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+        Offer offer= offerRepository.findByOwnerAndId(recruteur,idOffer);
+        Candidature candidature =candidatureRepository.findByCodeAndTheOffer(idCandidature,offer);
 
-            Path fileNameAndPath = Paths.get("./uploads/",user.getCin(),"/CV/",fileName);
-            try{
-                MultipartFile file=new MockMultipartFile(fileName, Files.readAllBytes(fileNameAndPath));
-                return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);
-            }catch(Exception exception){
-                return new ResponseEntity<>("Erreur lors du download : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
-            }
+        User user =candidature.getOwner();
+        MultipartFile file = null;
+
+        headers.setContentType(MediaType.APPLICATION_PDF);
+                file =new  MockMultipartFile(user.getCvFileName(), client.files().download("/"+user.getCin()+"/"+user.getCvFileName()).getInputStream());
+
+        return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);}
+        catch (Exception e){
+            return new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
         }
 
     }
-    public ResponseEntity<?> getpdpOwnerCandidature(Long idOffer, Long idCandidature, String name){
+
+
+    /*public ResponseEntity<?> getpdpOwnerCandidature(Long idOffer, Long idCandidature, String name){
         ResponseEntity  response=getOwnerCandidature(idOffer,idCandidature,name);
         if(response.getStatusCode().equals(HttpStatus.NOT_FOUND))
             return response;
@@ -207,7 +213,7 @@ public class RecruterServices {
                 return new ResponseEntity<>("Erreur lors du download : "+exception.getMessage(),HttpStatus.EXPECTATION_FAILED);
             }
         }
-    }
+    }*/
 
 
 }

@@ -239,13 +239,6 @@ public class CandidatServices {
                 break;
 
         }
-
-
-
-
-
-
-
         return new ResponseEntity<>(file.getBytes(),headers,HttpStatus.OK);
     }
 

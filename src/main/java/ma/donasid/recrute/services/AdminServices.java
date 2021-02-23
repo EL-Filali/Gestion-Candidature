@@ -130,7 +130,7 @@ public class AdminServices {
             return new ResponseEntity(new Exception("User not found"),HttpStatus.BAD_REQUEST);
         }
     }
-    public ResponseEntity<?> getLogs(Long idUser){
+    public ResponseEntity<?> getLogs(){
        List<Log> logs=logRepository.findAll();
        return new ResponseEntity<>(logs,HttpStatus.OK);
 

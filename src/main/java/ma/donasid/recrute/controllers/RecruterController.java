@@ -1,5 +1,6 @@
 package ma.donasid.recrute.controllers;
 
+import com.dropbox.core.DbxException;
 import ma.donasid.recrute.beans.Candidature;
 import ma.donasid.recrute.beans.Offer;
 import ma.donasid.recrute.services.AdminServices;
@@ -14,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -80,12 +82,12 @@ public class RecruterController {
     ResponseEntity<?> getOwner(@PathVariable  Long idOffer, @PathVariable  Long idCandidature,Principal principal){
         return recruterServices.getOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
-    @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/pdp")
+    /*@GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/pdp")
     ResponseEntity<?> getOwnerPdp(@PathVariable Long idOffer, @PathVariable Long idCandidature,Principal principal){
         return recruterServices.getpdpOwnerCandidature(idOffer,idCandidature,principal.getName());
-    }
+    }*/
     @GetMapping("offers/{idOffer}/candidatures/{idCandidature}/owner/cv")
-    ResponseEntity<?> getOwnerCv(@PathVariable Long idOffer, @PathVariable Long idCandidature,Principal principal){
+    ResponseEntity<?> getOwnerCv(@PathVariable Long idOffer, @PathVariable Long idCandidature,Principal principal) throws IOException, DbxException {
         return recruterServices.getCvOwnerCandidature(idOffer,idCandidature,principal.getName());
     }
     @GetMapping("/offers")

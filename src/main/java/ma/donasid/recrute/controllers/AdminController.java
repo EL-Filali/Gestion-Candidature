@@ -1,8 +1,10 @@
 package  ma.donasid.recrute.controllers;
 
+import ma.donasid.recrute.beans.Log;
 import ma.donasid.recrute.beans.User;
 import ma.donasid.recrute.services.AdminServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class AdminController {
     @Autowired
     AdminServices adminServices;
+
     @GetMapping("/users")
     ResponseEntity<?> getallUsers(){
         return adminServices.getAllUsers();
@@ -52,5 +55,10 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     ResponseEntity<?> suspendUser(@PathVariable Long id, Principal principal){
         return adminServices.suspendUser(id);
+    }
+    @GetMapping("/Log")
+    ResponseEntity<?> getLogs(){
+        return          adminServices.getLogs();
+
     }
 }
