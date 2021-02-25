@@ -49,7 +49,7 @@ public class User implements UserDetails  {
     private String phoneNumber;
 
     private String role;
-    @JsonIgnore
+
     private Boolean enabled;
     @JsonIgnore
     private Boolean accountExpired;

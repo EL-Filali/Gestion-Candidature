@@ -113,23 +113,16 @@ public class RecruterServices {
 
 
     public ResponseEntity<?> cloturerOffer(Long idOffer, String name) {
-        ResponseEntity<?> response= getRecruterOffer(name, idOffer);
+       Offer offer= offerRepository.findByOwnerAndId(userRepository.findByEmail(name),idOffer);
 
-        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND))
-            return response;
+        if (offer==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         else{
-            Offer offer = (Offer) response.getBody();
+
             if (offer.getOwner().getUsername()!=name)
                 return  new ResponseEntity<>("Aucun Offre de vos offre n a cet ID",HttpStatus.NOT_FOUND);
             else{
-                List<Candidature> candidatures= offer.getCandidatures();
-                for (Candidature candidature:candidatures) {
-                    if((candidature.getStatus()!="VALIDEE")||((candidature.getStatus()!="ANNULEE"))) {
-                        candidature.setStatus("REFUSEE");
-                        candidatureRepository.save(candidature);
-                    }
-
-                }
+                candidatureRepository.updateCandidatureAfterOfferExpired(offer);
                 return new ResponseEntity<>(offer,HttpStatus.OK);
             }
         }
