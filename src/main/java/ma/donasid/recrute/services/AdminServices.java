@@ -123,8 +123,8 @@ public class AdminServices {
         Optional<User> userOptional =userRepository.findById(idUser);
         if(userOptional.isPresent()){
             User user= userOptional.get();
-
-            userRepository.delete(user);
+            user.setEnabled(!user.getEnabled());
+            userRepository.save(user);
             return new ResponseEntity(HttpStatus.OK);
         }else{
             return new ResponseEntity(new Exception("User not found"),HttpStatus.BAD_REQUEST);
