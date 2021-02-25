@@ -124,6 +124,7 @@ public class AdminServices {
         if(userOptional.isPresent()){
             User user= userOptional.get();
             user.setEnabled(!user.getEnabled());
+            candidatureRepository.deleteAllByOwner(user);
             userRepository.save(user);
             return new ResponseEntity(HttpStatus.OK);
         }else{

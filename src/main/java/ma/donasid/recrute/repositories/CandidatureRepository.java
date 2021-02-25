@@ -19,4 +19,5 @@ public interface CandidatureRepository extends JpaRepository<Candidature,Long> {
     @Modifying
     @Query("update Candidature u set u.status = 'REFUSEE' where u.status <> 'VALIDEE' and u.theOffer= :theOffer " )
     public void updateCandidatureAfterOfferExpired(Offer theOffer);
+    public void deleteAllByOwner(User owner);
 }
