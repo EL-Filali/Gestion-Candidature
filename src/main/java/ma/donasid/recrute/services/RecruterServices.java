@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
@@ -111,7 +112,7 @@ public class RecruterServices {
 
     }
 
-
+    @Transactional
     public ResponseEntity<?> cloturerOffer(Long idOffer, String name) {
        Offer offer= offerRepository.findByOwnerAndId(userRepository.findByEmail(name),idOffer);
 
@@ -119,12 +120,13 @@ public class RecruterServices {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         else{
 
-            if (offer.getOwner().getUsername()!=name)
-                return  new ResponseEntity<>("Aucun Offre de vos offre n a cet ID",HttpStatus.NOT_FOUND);
-            else{
+
+
                 candidatureRepository.updateCandidatureAfterOfferExpired(offer);
+                offer.setStatus("EXPIRE");
+                offerRepository.save(offer);
                 return new ResponseEntity<>(offer,HttpStatus.OK);
-            }
+
         }
 
     }
